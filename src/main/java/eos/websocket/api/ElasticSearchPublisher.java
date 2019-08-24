@@ -20,6 +20,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 
 
 import java.net.InetAddress;
@@ -34,8 +35,7 @@ public class ElasticSearchPublisher {
         private RestClient restClient;
 
 
-
-    public ElasticSearchPublisher() throws UnknownHostException {
+public ElasticSearchPublisher() throws UnknownHostException {
         Settings settings = Settings.builder()
                 .put("cluster.name", "eostribe-es-02").build();
 //        this.client = new RestClient.builder();

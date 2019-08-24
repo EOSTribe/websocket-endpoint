@@ -32,14 +32,16 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
         ES_TRASNPORT_HOST2 = properties.getEsTransportHost2();
     }
 
-    {
+    public SocketHandler(){
         try {
             elasticSearchPublisher = new ElasticSearchPublisher();
             logger.info("es cluser name is: "+ES_CLUSTER_NAME+" transport host 1 is: "+ES_TRASNPORT_HOST1);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+
     }
+
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
@@ -60,6 +62,9 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                 logger.debug("Message type: "+ messageType);
                 break;
             case "BLOCK":
+                logger.debug("Message type: "+ messageType);
+                break;
+            case "TBL_ROW":
                 logger.debug("Message type: "+ messageType);
                 break;
             case "TX_TRACE":
