@@ -21,27 +21,11 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
     private static final transient Logger logger = LoggerFactory.getLogger(SocketHandler.class);
 
     private ElasticSearchPublisher elasticSearchPublisher;
-    private String ES_TRASNPORT_HOST1;
-    private String ES_TRASNPORT_HOST2;
-    private String ES_CLUSTER_NAME;
 
     @Autowired
-    public void setProperties(Properties properties) {
-        ES_CLUSTER_NAME = properties.getEsClusterName();
-        ES_TRASNPORT_HOST1 = properties.getEsTransportHost1();
-        ES_TRASNPORT_HOST2 = properties.getEsTransportHost2();
+    public void setElasticSearchPublisher(ElasticSearchPublisher elasticSearchPublisher) {
+        this.elasticSearchPublisher = elasticSearchPublisher;
     }
-
-    public SocketHandler(){
-        try {
-            elasticSearchPublisher = new ElasticSearchPublisher();
-            logger.info("es cluser name is: "+ES_CLUSTER_NAME+" transport host 1 is: "+ES_TRASNPORT_HOST1);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
@@ -51,6 +35,7 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
 
     @Override
     public void handleBinaryMessage(WebSocketSession session, BinaryMessage binaryMessage) throws UnsupportedEncodingException, JSONException {
+
         String stringMessage = new String(binaryMessage.getPayload().array(),"UTF-8");
         JSONObject jsonMessage = new JSONObject(stringMessage);
         String messageType = jsonMessage.get("msgtype").toString();
