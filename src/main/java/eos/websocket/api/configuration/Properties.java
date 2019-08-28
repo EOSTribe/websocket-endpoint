@@ -1,6 +1,7 @@
-package eos.websocket.api;
+package eos.websocket.api.configuration;
 
 
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
@@ -17,6 +18,12 @@ public class Properties {
     @Value("${ES_CLUSTER_NAME}")
     private String esClusterName;
 
+    @Value("${ACTIONS_INDEX}")
+    private String actionsIndex;
+
+    @Value("${TRANSACTION_INDEX}")
+    private String transactionIndex;
+
     public String getEsTransportHost1() {
         return esTransportHost1;
     }
@@ -29,15 +36,11 @@ public class Properties {
         return esClusterName;
     }
 
-    public void setEsTransportHost1(String esTransportHost1) {
-        this.esTransportHost1 = esTransportHost1;
+    public String getActionsIndex() {
+        return actionsIndex;
     }
 
-    public void setEsTransportHost2(String esTransportHost2) {
-        this.esTransportHost2 = esTransportHost2;
-    }
-
-    public void setEsClusterName(String esClusterName) {
-        this.esClusterName = esClusterName;
+    public String getTransactionIndex() {
+        return transactionIndex;
     }
 }
