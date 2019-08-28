@@ -7,31 +7,30 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @PropertySource("classpath:global.properties")
 @ConfigurationProperties
 public class Properties {
-    @Value("${ES_TRASNPORT_HOST1}")
-    private String esTransportHost1;
-    @Value("${ES_TRASNPORT_HOST2}")
-    private String esTransportHost2;
-    @Value("${ES_CLUSTER_NAME}")
-    private String esClusterName;
-    @Value("${ACTIONS_INDEX}")
+    @Value("${ES_HOST1}")
+    private String esHost1;
+    @Value("${ES_HOST2}")
+    private String esHost2;
+     @Value("${ACTIONS_INDEX}")
     private String actionsIndex;
     @Value("${TRANSACTION_INDEX}")
     private String transactionIndex;
+    @Value("${WEBSOCKET_PATH}")
+    private String websocketPath;
 
-    public String getEsTransportHost1() {
-        return esTransportHost1;
+    public String getEsHost1() {
+        return esHost1;
     }
 
-    public String getEsTransportHost2() {
-        return esTransportHost2;
-    }
-
-    public String getEsClusterName() {
-        return esClusterName;
+    public String getEsHost2() {
+        return esHost2;
     }
 
     public String getActionsIndex() {
@@ -40,5 +39,9 @@ public class Properties {
 
     public String getTransactionIndex() {
         return transactionIndex;
+    }
+
+    public String getWebsocketPath() {
+        return websocketPath;
     }
 }

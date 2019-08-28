@@ -31,7 +31,6 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         logger.info("Session established from: "+session.getRemoteAddress());
-
     }
 
     @Override
@@ -51,7 +50,7 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                 logger.debug("Message type: "+ messageType);
                 break;
             case "TBL_ROW":
-                logger.debug("Message type: "+ messageType);
+                logger.info("Message type: "+ messageType);
                 break;
             case "TX_TRACE":
                 logger.debug("Message type: "+ messageType);
@@ -82,6 +81,18 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
             case "BLOCK_COMPLETED":
                 logger.debug("Message type: "+ messageType);
 
+                try {
+                    String blockNumber = jsonMessage.
+                            getJSONObject("data").
+                            getString("block_num");
+
+                    session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
+
+                } catch (JSONException jex) {
+                    logger.error("JSON Parse error", jex);
+                } catch (IOException ioex){
+                    logger.error("IO Exception", ioex);
+                }
                 break;
             default:
                 logger.debug("Message type undefined: "+ messageType);
@@ -92,7 +103,7 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        System.out.println(status);
+        logger.info("Close staus: "+status.getReason());
     }
 
 }

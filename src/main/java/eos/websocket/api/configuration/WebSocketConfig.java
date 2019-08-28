@@ -11,7 +11,20 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @Configuration
 public class WebSocketConfig implements WebSocketConfigurer {
 
+    private String websocketPath;
     private SocketHandler socketHandler;
+
+//    @Autowired
+//    public WebSocketConfig(Properties properties){
+//        this.websocketPath = properties.getWebsocketPath();
+//
+//    }
+
+    @Autowired
+    public void setWebsocketPath(Properties properties){
+        this.websocketPath = properties.getWebsocketPath();
+
+    }
 
     @Autowired
     public void setSocketHandler(SocketHandler socketHandler) {
@@ -21,7 +34,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(socketHandler, "/");
+        registry.addHandler(socketHandler, this.websocketPath);
     }
 
     @Bean
