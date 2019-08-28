@@ -17,10 +17,8 @@ public class Properties {
     private String esTransportHost2;
     @Value("${ES_CLUSTER_NAME}")
     private String esClusterName;
-
     @Value("${ACTIONS_INDEX}")
     private String actionsIndex;
-
     @Value("${TRANSACTION_INDEX}")
     private String transactionIndex;
 
