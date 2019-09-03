@@ -15,7 +15,7 @@ apply plugin: 'io.spring.dependency-management'
 
 bootJar {
     baseName = 'websocket-endpoint'
-    version = '0.1.0'
+    version = '0.1.1'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -27,7 +27,6 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.apache.kafka', name: 'kafka-clients', version: '2.3.0'
     compile group: 'org.json', name: 'json', version: '20180813'
     compile group: 'org.elasticsearch.gradle', name: 'build-tools', version: '7.2.1'
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.2.1'

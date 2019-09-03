@@ -31,9 +31,14 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
     private String ACTIONS_INDEX;
     private String TRANSACTION_INDEX;
     private BulkProcessor bulkProcessor;
+    private Boolean failureState;
+
+
 
     @Autowired
         public ElasticSearchPublisher(Properties properties){
+
+        failureState = false;
 
         ACTIONS_INDEX = properties.getActionsIndex();
         TRANSACTION_INDEX = properties.getTransactionIndex();
@@ -59,6 +64,8 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
             @Override
             public void afterBulk(long executionId, BulkRequest request,
                                   Throwable failure) {
+
+                setFailureState(true);
                 logger.warn("bulk failed: " + failure);
                 logger.warn(failure.getMessage());
                 logger.warn("failure response: " + failure.getCause());
@@ -77,6 +84,15 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
                 .setBackoffPolicy(BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3))
                 .build();
 
+    }
+
+
+    public Boolean getFailureState() {
+        return failureState;
+    }
+
+    public void setFailureState(Boolean failureState) {
+        this.failureState = failureState;
     }
 
     @Override

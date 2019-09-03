@@ -69,7 +69,12 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                     if (Integer.valueOf(blockNumber) % 100 == 0){
                         session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
                         logger.info("acknowleged block number: "+ blockNumber);
-                }
+                    }
+
+                    if (elasticSearchPublisher.getFailureState()){
+                        logger.warn("Elasticsearch connection is broken");
+                        session.close();
+                    }
 
                 } catch (JSONException e) {
                      e.printStackTrace();

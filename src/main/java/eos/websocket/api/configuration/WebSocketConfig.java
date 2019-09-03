@@ -14,12 +14,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private String websocketPath;
     private SocketHandler socketHandler;
 
-//    @Autowired
-//    public WebSocketConfig(Properties properties){
-//        this.websocketPath = properties.getWebsocketPath();
-//
-//    }
-
     @Autowired
     public void setWebsocketPath(Properties properties){
         this.websocketPath = properties.getWebsocketPath();
@@ -40,8 +34,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Bean
     public ServletServerContainerFactoryBean createWebSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-        container.setMaxTextMessageBufferSize(500000);
-        container.setMaxBinaryMessageBufferSize(500000);
+        container.setMaxTextMessageBufferSize(15500000);
+        container.setMaxBinaryMessageBufferSize(1500000);
         return container;
     }
 
