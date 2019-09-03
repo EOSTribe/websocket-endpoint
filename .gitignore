@@ -34,3 +34,5 @@ hs_err_pid*
 .gradle/*
 out/*
 build/*
+docker/consumer/build/*
+docker/chronicle/data/*

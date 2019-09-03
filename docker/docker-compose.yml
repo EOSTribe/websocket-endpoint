@@ -1,0 +1,36 @@
+version: '3.0'
+services:
+  chronicle:
+#    logging:
+#      driver: syslog
+    build: ./chronicle
+    volumes:
+      - ./chronicle:/opt/data
+    environment:
+      - DATA_DIR=./data
+      - MODE=scan
+      - HOST=api.eostribe.io #ip address or hostname of nodeos with state-history plogin
+      - PORT=8299 #port number of state history plugin
+      - WS_HOST=chronicle-consumer # ip address or hostname json's consumer
+      - WS_PORT=8080 # port number of json's consumer
+      - SKIP_BLOCK_EVENTS=false
+      - SKIP_TABLE_DELTAS=true
+      - BIN_HEADER=false
+      - EXP_WS_PATH=/
+    depends_on:
+      - chronicle-consumer
+    links:
+      - chronicle-consumer
+  chronicle-consumer:
+    build: ./consumer
+#    logging:
+#      driver: syslog
+    environment:
+      - ES_HOST1=10.0.2.222
+      - ES_HOST2=10.0.2.222
+      - ACTIONS_INDEX=test-mainet-actions
+      - TRANSACTION_INDEX=test-mainet-transaction
+      - WEBSOCKET_PATH=/
+
+
+
