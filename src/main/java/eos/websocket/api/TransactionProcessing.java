@@ -12,6 +12,16 @@ import java.util.ArrayList;
 
 public class TransactionProcessing {
     private JSONObject transactionMessage;
+    private ArrayList<JSONObject> newAccountActions;
+    private ArrayList<JSONObject> transferActions;
+
+    public ArrayList<JSONObject> getNewAccountActions() {
+        return newAccountActions;
+    }
+
+    public ArrayList<JSONObject> getTransferActions() {
+        return transferActions;
+    }
 
     private static final transient Logger logger = LoggerFactory.getLogger(TransactionProcessing.class);
 
@@ -39,7 +49,13 @@ public class TransactionProcessing {
             }else {
                 logger.warn("Can't decode action: "+action.toString());
             }
-         actions.add(jsonAction);
+            if (jsonAction.getJSONObject("act").getString("name").equals("transfer")){
+                this.transferActions.add(jsonAction);
+            }
+            if (jsonAction.getJSONObject("act").getString("name").equals("newaccount")){
+                this.newAccountActions.add(jsonAction);
+            }
+            actions.add(jsonAction);
         }
         return actions;
     }
@@ -60,6 +76,10 @@ public class TransactionProcessing {
         transaction.getJSONObject("trace").remove("actions");
         return transaction;
     }
+
+
+
+
 
 
 }

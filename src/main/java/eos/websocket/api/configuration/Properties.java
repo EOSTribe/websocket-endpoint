@@ -23,6 +23,10 @@ public class Properties {
     private String transactionIndex;
     @Value("${WEBSOCKET_PATH}")
     private String websocketPath;
+    @Value("${NEW_ACCOUNT_INDEX}")
+    private String newAccountIndex;
+    @Value("${TRANSFER_INDEX}")
+    private String transferIndex;
 
     public String getEsHost1() {
         return esHost1;
@@ -42,5 +46,21 @@ public class Properties {
 
     public String getWebsocketPath() {
         return websocketPath;
+    }
+
+    public String getNewAccountIndex() {
+        return newAccountIndex;
+    }
+
+    public void setNewAccountIndex(String newAccountIndex) {
+        this.newAccountIndex = newAccountIndex;
+    }
+
+    public String getTransferIndex() {
+        return transferIndex;
+    }
+
+    public void setTransferIndex(String transferIndex) {
+        this.transferIndex = transferIndex;
     }
 }

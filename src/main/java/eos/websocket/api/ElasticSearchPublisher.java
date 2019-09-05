@@ -30,6 +30,8 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
     private RestHighLevelClient restHighLevelClient;
     private String ACTIONS_INDEX;
     private String TRANSACTION_INDEX;
+    private String NEW_ACCOUNT_INDEX;
+    private String TRANSFER_INDEX;
     private BulkProcessor bulkProcessor;
     private Boolean failureState;
 
@@ -39,9 +41,11 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
         public ElasticSearchPublisher(Properties properties){
 
         failureState = false;
-
         ACTIONS_INDEX = properties.getActionsIndex();
         TRANSACTION_INDEX = properties.getTransactionIndex();
+        NEW_ACCOUNT_INDEX = properties.getNewAccountIndex();
+        TRANSFER_INDEX = properties.getTransferIndex();
+
         logger.debug("ES_HOST1 is: " + properties.getEsHost1() + " ES_HOST2 " + properties.getEsHost2());
         this.restHighLevelClient = new RestHighLevelClient(
                 RestClient.builder(
@@ -106,6 +110,17 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
              bulkProcessor.add(new IndexRequest(this.TRANSACTION_INDEX).source(transaction.toString(), XContentType.JSON));
     }
 
+    public void pubNewAccountActions(ArrayList<JSONObject> actions){
+        for (JSONObject action: actions) {
+            bulkProcessor.add(new IndexRequest(this.NEW_ACCOUNT_INDEX).source(action.toString(), XContentType.JSON));
+        }
+    }
+
+    public void pubTransferActions(ArrayList<JSONObject> actions){
+        for (JSONObject action: actions) {
+            bulkProcessor.add(new IndexRequest(this.TRANSACTION_INDEX).source(action.toString(), XContentType.JSON));
+        }
+    }
 }
 
 
