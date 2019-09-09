@@ -89,7 +89,7 @@ public class SocketHandlerFrontend extends TextWebSocketHandler implements WebSo
         String sessionid = subscriberSessionStorage.getSessionId(accountid);
         WebSocketSession session = subscriberSessionStorage.getSession(sessionid);
         synchronized (session) {
-            if (session != null) session.sendMessage(new TextMessage(jsonMessage.getJSONObject("action").toString()));
+            if (session != null && session.isOpen()) session.sendMessage(new TextMessage(jsonMessage.getJSONObject("action").toString()));
         }
         logger.info("Message " + message);
     }

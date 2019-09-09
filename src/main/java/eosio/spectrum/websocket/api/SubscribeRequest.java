@@ -1,9 +1,13 @@
 package eosio.spectrum.websocket.api;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class SubscribeRequest {
 
+    @NotNull
     private String account;
     private List<String> actions;
 
