@@ -1,0 +1,16 @@
+{"msgtype":"TX_TRACE","data":{"block_num":"2586112","block_timestamp":"2018-06-25T15:25:20.500","trace":{"account_ram_delta":null,"action_traces":
+[{"account_ram_deltas":[{"account":"gyztomjugage","delta":"240"}],"act":{"account":"gyztomjugage","authorization":
+[{"actor":"gyztomjugage","permission":"active"}],"data":{"from":"gyztomjugage","memo":"cetostokenairdrop","quantity":"1117.0000CETOS","to":"gm2tsojsgige"},
+  "name":"transfer"},"action_ordinal":"1","console":"","context_free":"false","creator_action_ordinal":"0","elapsed":"134","error_code":null,"except":"",
+  "receipt":{"abi_sequence":"3","act_digest":"4371e1bb08c5e90f1b131f8a9c104c875396d7ebf4e505ec0e31b1454d8922c7","auth_sequence":
+  [{"account":"gyztomjugage","sequence":"100689"}],"code_sequence":"3","global_sequence":"6926000","receiver":"gyztomjugage","recv_sequence":"50345"},
+  "receiver":"gyztomjugage"},{"account_ram_deltas":[],"act":{"account":"gyztomjugage","authorization":[{"actor":"gyztomjugage","permission":"active"}],
+  "data":{"from":"gyztomjugage","memo":"cetostokenairdrop","quantity":"1117.0000CETOS","to":"gm2tsojsgige"},"name":"transfer"},"action_ordinal":"2","console":""
+,"context_free":"false","creator_action_ordinal":"1","elapsed":"7","error_code":null,"except":"","receipt":{"abi_sequence":"3",
+    "act_digest":"4371e1bb08c5e90f1b131f8a9c104c875396d7ebf4e505ec0e31b1454d8922c7","auth_sequence":[{"account":"gyztomjugage","sequence":"100690"}],
+    "code_sequence":"3","global_sequence":"6926001","receiver":"gm2tsojsgige","recv_sequence":"4"},"receiver":"gm2tsojsgige"}],"cpu_usage_us":"865",
+  "elapsed":"402","error_code":null,"except":"","failed_dtrx_trace":[],"id":"98c71336a5c8bee056f735ebcd15f671741a3777a197935a2ba719a47818be1c",
+  "net_usage":"144","net_usage_words":"18","partial":{"context_free_data":[],"delay_sec":"0","expiration":"2018-06-25T15:25:50.000","max_cpu_usage_ms":"0",
+    "max_net_usage_words":"0","ref_block_num":"29878","ref_block_prefix":"371991372","signatures":
+    ["SIG_K1_KZneZQsYpbBgWmu9PeCfKnF5YKXfpbeggspuDzwP1u5wgjiaaTFQAwfeqyUrAGXkZv9JhBhfLRyBhyi78KSYhjAwPbgZLv"],"transaction_extensions":[]},
+  "scheduled":"false","status":"executed"}}}

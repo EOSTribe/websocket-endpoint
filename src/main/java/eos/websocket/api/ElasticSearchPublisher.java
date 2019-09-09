@@ -118,7 +118,7 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
 
     public void pubTransferActions(ArrayList<JSONObject> actions){
         for (JSONObject action: actions) {
-            bulkProcessor.add(new IndexRequest(this.TRANSACTION_INDEX).source(action.toString(), XContentType.JSON));
+            bulkProcessor.add(new IndexRequest(this.TRANSFER_INDEX).source(action.toString(), XContentType.JSON));
         }
     }
 }
