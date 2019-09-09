@@ -9,19 +9,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionProcessing {
     private JSONObject transactionMessage;
     private ArrayList<JSONObject> newAccountActions;
     private ArrayList<JSONObject> transferActions;
 
-    public ArrayList<JSONObject> getNewAccountActions() {
-        return newAccountActions;
-    }
 
-    public ArrayList<JSONObject> getTransferActions() {
-        return transferActions;
-    }
 
     private static final transient Logger logger = LoggerFactory.getLogger(TransactionProcessing.class);
 
@@ -31,6 +26,8 @@ public class TransactionProcessing {
 
     public ArrayList<JSONObject> getActions(){
         ArrayList<JSONObject> actions = new ArrayList<>();
+        newAccountActions = new ArrayList<>();
+        transferActions = new ArrayList<>();
         JSONObject jsonAction = null;
         String actionData;
         for (Object action:this.transactionMessage.getJSONObject("trace").getJSONArray("action_traces")){
@@ -77,9 +74,13 @@ public class TransactionProcessing {
         return transaction;
     }
 
+    public ArrayList<JSONObject> getNewAccountActions(){
 
+        return this.newAccountActions;
+    }
 
-
-
+    public ArrayList<JSONObject> getTransferActions(){
+        return this.transferActions;
+    }
 
 }

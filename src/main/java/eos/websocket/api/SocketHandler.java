@@ -61,7 +61,18 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                             pubActions(transactionProcessing.getActions());
                     elasticSearchPublisher.
                             pubTransaction(transactionProcessing.getTransaction());
-                    elasticSearchPublisher.pubNewAccountActions(transactionProcessing.getNewAccountActions());
+
+                    if (transactionProcessing.getNewAccountActions() !=null){
+                        elasticSearchPublisher.
+                                pubNewAccountActions(transactionProcessing.
+                                        getNewAccountActions());
+                    }
+
+                    if (transactionProcessing.getTransferActions() !=null){
+                        elasticSearchPublisher.
+                                pubTransferActions(transactionProcessing.
+                                        getTransferActions());
+                    }
 
                     String blockNumber = jsonMessage.
                             getJSONObject("data").
