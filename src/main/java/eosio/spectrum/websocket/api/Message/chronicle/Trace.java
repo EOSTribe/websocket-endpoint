@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Trace {
     private Boolean scheduled;
-    private String account_ram_delta;
+    private Account_ram_delta account_ram_delta;
     private int net_usage;
     private List<ActionTraces> action_traces;
     private List<Failed_dtrx_trace> failed_dtrx_trace;
@@ -25,11 +25,11 @@ public class Trace {
         this.scheduled = scheduled;
     }
 
-    public String getAccount_ram_delta() {
+    public Account_ram_delta getAccount_ram_delta() {
         return account_ram_delta;
     }
 
-    public void setAccount_ram_delta(String account_ram_delta) {
+    public void setAccount_ram_delta(Account_ram_delta account_ram_delta) {
         this.account_ram_delta = account_ram_delta;
     }
 

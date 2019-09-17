@@ -9,7 +9,7 @@ public class Partial {
     private int max_cpu_usage_ms;
     private int max_net_usage_words;
     private int ref_block_num;
-    private int ref_block_prefix;
+    private long ref_block_prefix;
     private List<String> signatures;
     private List<Transaction_extensions> transaction_extensions;
 
@@ -61,7 +61,7 @@ public class Partial {
         this.ref_block_num = ref_block_num;
     }
 
-    public int getRef_block_prefix() {
+    public long getRef_block_prefix() {
         return ref_block_prefix;
     }
 

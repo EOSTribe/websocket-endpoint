@@ -2,6 +2,9 @@ package eosio.spectrum.websocket.api.Message.chronicle;
 
 import eosio.spectrum.websocket.api.Message.chronicle.Trace;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Transaction {
     private int block_num;
     private String block_timestamp;
@@ -29,5 +32,28 @@ public class Transaction {
 
     public void setTrace(Trace trace) {
         this.trace = trace;
+    }
+
+    public List<ActionTraces> getActions(){
+        List<ActionTraces> actionTraces = this.getTrace().getAction_traces();
+        for (ActionTraces action:actionTraces) {
+            action.setBlock_num(this.getBlock_num());
+            action.setBlock_timestamp(this.getBlock_timestamp());
+            action.setTrxId(this.getTrace().getId());
+        }
+        return actionTraces;
+    }
+    public List<ActionTraces> getActionsFiltered(String actionName){
+        List<ActionTraces> actionTraces = new ArrayList<>();
+        for (ActionTraces action:this.getTrace().getAction_traces()) {
+            if (action.getAct().getName().equals(actionName)){
+                action.setBlock_num(this.getBlock_num());
+                action.setBlock_timestamp(this.getBlock_timestamp());
+                action.setTrxId(this.getTrace().getId());
+                actionTraces.add(action);
+            }
+        }
+
+        return actionTraces;
     }
 }

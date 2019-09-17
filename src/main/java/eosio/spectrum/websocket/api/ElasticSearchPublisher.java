@@ -1,5 +1,8 @@
 package eosio.spectrum.websocket.api;
 
+import com.google.gson.Gson;
+import eosio.spectrum.websocket.api.Message.chronicle.ActionTraces;
+import eosio.spectrum.websocket.api.Message.chronicle.Transaction;
 import eosio.spectrum.websocket.api.configuration.Properties;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.bulk.BackoffPolicy;
@@ -22,10 +25,11 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
-public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
+public class ElasticSearchPublisher {
     private static final transient Logger logger = LoggerFactory.getLogger(ElasticSearchPublisher.class);
     private RestHighLevelClient restHighLevelClient;
     private String ACTIONS_INDEX;
@@ -99,27 +103,31 @@ public class ElasticSearchPublisher implements ElasticSearchPublisherInterface {
         this.failureState = failureState;
     }
 
-    @Override
-    public void pubActions(ArrayList<JSONObject> actions){
-        for (JSONObject action: actions) {
-            bulkProcessor.add(new IndexRequest(this.ACTIONS_INDEX).source(action.toString(), XContentType.JSON));
+    public void pubActions(List<ActionTraces> actions){
+        for (ActionTraces action: actions) {
+            String json = new Gson().toJson(action);
+            bulkProcessor.add(new IndexRequest(this.ACTIONS_INDEX).source(json, XContentType.JSON));
         }
     }
-    @Override
-    public void pubTransaction(JSONObject transaction){
-             bulkProcessor.add(new IndexRequest(this.TRANSACTION_INDEX).source(transaction.toString(), XContentType.JSON));
-    }
-
-    public void pubNewAccountActions(ArrayList<JSONObject> actions){
-        for (JSONObject action: actions) {
-            bulkProcessor.add(new IndexRequest(this.NEW_ACCOUNT_INDEX).source(action.toString(), XContentType.JSON));
-        }
+    public void pubTransaction(Transaction transaction){
+        String json = new Gson().toJson(transaction);
+        bulkProcessor.add(new IndexRequest(this.TRANSACTION_INDEX).source(json, XContentType.JSON));
     }
 
-    public void pubTransferActions(ArrayList<JSONObject> actions){
-        for (JSONObject action: actions) {
-            bulkProcessor.add(new IndexRequest(this.TRANSFER_INDEX).source(action.toString(), XContentType.JSON));
+    public void pubNewAccountActions(List<ActionTraces> actions){
+        for (ActionTraces action: actions) {
+            String json = new Gson().toJson(action);
+            bulkProcessor.add(new IndexRequest(this.NEW_ACCOUNT_INDEX).source(json, XContentType.JSON));
         }
+    }
+
+    public void pubTransferActions(List<ActionTraces> actions){
+        for (ActionTraces action: actions)
+        {
+            String json = new Gson().toJson(action);
+            bulkProcessor.add(new IndexRequest(this.TRANSFER_INDEX).source(json, XContentType.JSON));
+        }
+
     }
 }
 

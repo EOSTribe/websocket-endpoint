@@ -61,29 +61,25 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
 
                 logger.debug("Message type: "+ chronicleMessage.getMsgtype());
                 try {
-                    TransactionProcessing transactionProcessing = new TransactionProcessing(jsonMessage.getJSONObject("data"));
-
                     elasticSearchPublisher.
-                            pubActions(transactionProcessing.getActions());
+                            pubActions(transaction.getActions());
+
+                    elasticSearchPublisher.pubTransferActions(transaction.
+                            getActionsFiltered("transfer"));
+
+                    elasticSearchPublisher.pubNewAccountActions(transaction.
+                            getActionsFiltered("newaccount"));
+
+                    transaction.getTrace().setAction_traces(null);
                     elasticSearchPublisher.
-                            pubTransaction(transactionProcessing.getTransaction());
+                            pubTransaction(transaction);
 
-                    if (transactionProcessing.getNewAccountActions() !=null){
-                        elasticSearchPublisher.
-                                pubNewAccountActions(transactionProcessing.
-                                        getNewAccountActions());
-                    }
-
-                    if (transactionProcessing.getTransferActions() !=null){
-                        elasticSearchPublisher.
-                                pubTransferActions(transactionProcessing.
-                                        getTransferActions());
-                    }
-
-                    Integer blockNumber = transaction.getBlock_num();
+                    String blockNumber = jsonMessage.
+                            getJSONObject("data").
+                            getString("block_num");;
 
                     if (Integer.valueOf(blockNumber) % 100 == 0){
-                        session.sendMessage(new BinaryMessage(blockNumber.toString().getBytes()));
+                        session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
                         logger.info("acknowleged block number: "+ blockNumber);
                     }
 
