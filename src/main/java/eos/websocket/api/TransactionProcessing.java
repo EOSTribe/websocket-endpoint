@@ -70,7 +70,7 @@ public class TransactionProcessing {
         /**
          * removing filed actions from transaction
          */
-        transaction.getJSONObject("trace").remove("actions");
+        transaction.getJSONObject("trace").remove("action_traces");
         return transaction;
     }
 
