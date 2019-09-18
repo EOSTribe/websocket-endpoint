@@ -1,4 +1,4 @@
-package eosio.spectrum.websocket.api.Message.chronicle;
+package eosio.spectrum.websocket.api.message.eosio;
 
 public class Authorization {
     private String actor;

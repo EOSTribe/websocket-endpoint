@@ -1,6 +1,7 @@
-package eosio.spectrum.websocket.api.Message.chronicle;
+package eosio.spectrum.websocket.api.message.chronicle;
 
 import com.google.gson.annotations.SerializedName;
+import eosio.spectrum.websocket.api.message.eosio.Transaction;
 
 public class ChronicleMessage {
     private ChronicleMessageType msgtype;

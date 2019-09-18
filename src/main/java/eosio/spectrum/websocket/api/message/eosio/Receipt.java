@@ -1,4 +1,4 @@
-package eosio.spectrum.websocket.api.Message.chronicle;
+package eosio.spectrum.websocket.api.message.eosio;
 
 import java.util.List;
 

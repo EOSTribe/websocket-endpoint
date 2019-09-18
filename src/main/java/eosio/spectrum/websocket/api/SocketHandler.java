@@ -2,8 +2,8 @@ package eosio.spectrum.websocket.api;
 
 
 import com.google.gson.Gson;
-import eosio.spectrum.websocket.api.Message.chronicle.ChronicleMessage;
-import eosio.spectrum.websocket.api.Message.chronicle.Transaction;
+import eosio.spectrum.websocket.api.message.chronicle.ChronicleMessage;
+import eosio.spectrum.websocket.api.message.eosio.Transaction;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 
 import org.json.JSONObject;
 
@@ -42,25 +43,35 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
         String stringMessage = new String(binaryMessage.getPayload().array(),"UTF-8");
         JSONObject jsonMessage = new JSONObject(stringMessage);
         String messageType = jsonMessage.get("msgtype").toString();
-        switch (messageType){
+        switch (messageType) {
             case "ABI_UPDATED":
-                logger.debug("Message type: "+ messageType);
+                logger.debug("Message type: " + messageType);
                 break;
             case "FORK":
-                logger.debug("Message type: "+ messageType);
+                logger.debug("Message type: " + messageType);
                 break;
             case "BLOCK":
-                logger.debug("Message type: "+ messageType);
+                logger.debug("Message type: " + messageType);
                 break;
             case "TBL_ROW":
-                logger.info("Message type: "+ messageType);
+                logger.info("Message type: " + messageType);
                 break;
             case "TX_TRACE":
                 ChronicleMessage chronicleMessage = new Gson().fromJson(stringMessage, ChronicleMessage.class);
                 Transaction transaction = chronicleMessage.getTransaction();
 
-                logger.debug("Message type: "+ chronicleMessage.getMsgtype());
                 try {
+                transaction.getTrace().getPartial().
+                        setContext_free_data(
+                                jsonMessage.getJSONObject("data").
+                                        getJSONObject("trace").
+                                        getJSONObject("partial").
+                                        get("context_free_data")
+                                        .toString());
+                   }catch (JSONException jsonexception){
+                    logger.warn("jsonMessage is: "+jsonMessage.toString());
+
+                }
                     elasticSearchPublisher.
                             pubActions(transaction.getActions());
 
@@ -73,14 +84,17 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                     transaction.getTrace().setAction_traces(null);
                     elasticSearchPublisher.
                             pubTransaction(transaction);
-
+                try {
                     String blockNumber = jsonMessage.
                             getJSONObject("data").
                             getString("block_num");;
 
-                    if (Integer.valueOf(blockNumber) % 100 == 0){
-                        session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
-                        logger.info("acknowleged block number: "+ blockNumber);
+                    if (transaction.getBlock_num() % 100 == 0){
+                        if (session.isOpen()) {
+                            BigInteger bigInt = BigInteger.valueOf(transaction.getBlock_num());
+                            session.sendMessage(new BinaryMessage(bigInt.toByteArray()));
+                            logger.info("acknowleged block number: " + blockNumber);
+                        }
                     }
 
                     if (elasticSearchPublisher.getFailureState()){
@@ -102,8 +116,7 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                     String blockNumber = jsonMessage.
                             getJSONObject("data").
                             getString("block_num");
-
-                    session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
+                    if (session.isOpen())session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
 
                 } catch (JSONException jex) {
                     logger.error("JSON Parse error", jex);

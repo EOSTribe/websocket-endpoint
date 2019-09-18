@@ -1,8 +1,8 @@
 package eosio.spectrum.websocket.api;
 
 import com.google.gson.Gson;
-import eosio.spectrum.websocket.api.Message.chronicle.ActionTraces;
-import eosio.spectrum.websocket.api.Message.chronicle.Transaction;
+import eosio.spectrum.websocket.api.message.eosio.ActionTraces;
+import eosio.spectrum.websocket.api.message.eosio.Transaction;
 import eosio.spectrum.websocket.api.configuration.Properties;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.bulk.BackoffPolicy;
@@ -17,14 +17,12 @@ import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 

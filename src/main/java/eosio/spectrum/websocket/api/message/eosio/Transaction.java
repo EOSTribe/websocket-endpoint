@@ -1,6 +1,4 @@
-package eosio.spectrum.websocket.api.Message.chronicle;
-
-import eosio.spectrum.websocket.api.Message.chronicle.Trace;
+package eosio.spectrum.websocket.api.message.eosio;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package eosio.spectrum.websocket.api.Message.chronicle;
+package eosio.spectrum.websocket.api.message.eosio;
 
 public class Account_ram_deltas {
     private int delta;

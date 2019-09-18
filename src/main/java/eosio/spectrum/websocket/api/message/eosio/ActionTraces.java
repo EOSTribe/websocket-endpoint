@@ -1,8 +1,6 @@
-package eosio.spectrum.websocket.api.Message.chronicle;
+package eosio.spectrum.websocket.api.message.eosio;
 
-import eosio.spectrum.websocket.api.Message.chronicle.Account_ram_deltas;
-import eosio.spectrum.websocket.api.Message.chronicle.Act;
-import eosio.spectrum.websocket.api.Message.chronicle.Receipt;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -18,9 +16,9 @@ public class ActionTraces {
     private String except;
     private String error_code;
     private List<Account_ram_deltas> account_ram_deltas;
-
     private int block_num;
     private String block_timestamp;
+    @SerializedName("trxid")
     private String trxId;
 
     public Boolean getContext_free() {

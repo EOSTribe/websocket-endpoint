@@ -1,4 +1,7 @@
-package eosio.spectrum.websocket.api.Message.chronicle;
+package eosio.spectrum.websocket.api.message.eosio;
+
+import com.google.gson.annotations.SerializedName;
+import org.json.JSONPropertyName;
 
 import java.util.List;
 
@@ -7,7 +10,8 @@ public class Trace {
     private Account_ram_delta account_ram_delta;
     private int net_usage;
     private List<ActionTraces> action_traces;
-    private List<Failed_dtrx_trace> failed_dtrx_trace;
+    @SerializedName("failed_dtrx_trace")
+    private List<Trace> failed_dtrx_trace;
     private int elapsed;
     private int net_usage_words;
     private String except;
@@ -49,11 +53,11 @@ public class Trace {
         this.action_traces = action_traces;
     }
 
-    public List<Failed_dtrx_trace> getFailed_dtrx_trace() {
+    public List<Trace> getFailed_dtrx_trace() {
         return failed_dtrx_trace;
     }
 
-    public void setFailed_dtrx_trace(List<Failed_dtrx_trace> failed_dtrx_trace) {
+    public void setFailed_dtrx_trace(List<Trace> failed_dtrx_trace) {
         this.failed_dtrx_trace = failed_dtrx_trace;
     }
 
