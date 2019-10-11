@@ -27,6 +27,16 @@ public class Properties {
     private String newAccountIndex;
     @Value("${TRANSFER_INDEX}")
     private String transferIndex;
+    @Value("${FILTERED_ACTIONS_NAMES}")
+    private String[] filteredActions;
+
+    public String[] getFilteredActions() {
+        return filteredActions;
+    }
+
+    public void setFilteredActions(String[] filteredActions) {
+        this.filteredActions = filteredActions;
+    }
 
     public String getEsHost1() {
         return esHost1;

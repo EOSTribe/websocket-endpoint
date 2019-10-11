@@ -44,14 +44,27 @@ public class Transaction {
     public List<ActionTraces> getActionsFiltered(String actionName){
         List<ActionTraces> actionTraces = new ArrayList<>();
         for (ActionTraces action:this.getTrace().getAction_traces()) {
-            if (action.getAct().getName().equals(actionName)){
+            if (action.getAct().getName().contains(actionName)){
                 action.setBlock_num(this.getBlock_num());
                 action.setBlock_timestamp(this.getBlock_timestamp());
                 action.setTrxId(this.getTrace().getId());
                 actionTraces.add(action);
             }
         }
-
         return actionTraces;
     }
+    public List<ActionTraces> getActionsFiltered(List actionName){
+        List<ActionTraces> actionTraces = new ArrayList<>();
+        for (ActionTraces action:this.getTrace().getAction_traces()) {
+            if (actionName.contains(action.getAct().getName())){
+                action.setBlock_num(this.getBlock_num());
+                action.setBlock_timestamp(this.getBlock_timestamp());
+                action.setTrxId(this.getTrace().getId());
+                actionTraces.add(action);
+            }
+        }
+        return actionTraces;
+    }
+
+
 }

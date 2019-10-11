@@ -6,6 +6,15 @@ public class Act {
     private List<Authorization> authorization;
     private String name;
     private String account;
+    private Data data;
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
 
     public List<Authorization> getAuthorization() {
         return authorization;

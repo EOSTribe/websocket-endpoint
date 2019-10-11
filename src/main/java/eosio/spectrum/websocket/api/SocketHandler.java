@@ -2,6 +2,8 @@ package eosio.spectrum.websocket.api;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import eosio.spectrum.websocket.api.configuration.Properties;
 import eosio.spectrum.websocket.api.message.chronicle.ChronicleMessage;
 import eosio.spectrum.websocket.api.message.eosio.Transaction;
 import org.json.JSONException;
@@ -14,7 +16,11 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -26,6 +32,29 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
     private static final transient Logger logger = LoggerFactory.getLogger(SocketHandler.class);
 
     private ElasticSearchPublisher elasticSearchPublisher;
+
+    private Boolean pubActions = false;
+    private Boolean pubTransferActions = false;
+    private Boolean pubNewAccountActions = false;
+    private Boolean pubTransaction = false;
+    private List filteredActions;
+
+    @Autowired
+    public void setProperties(Properties properties){
+        if (!properties.getActionsIndex().isEmpty()){
+            this.pubActions = true;
+        }
+        if (!properties.getTransferIndex().isEmpty()){
+            this.pubTransferActions = true;
+        }
+        if (!properties.getNewAccountIndex().isEmpty()){
+            this.pubNewAccountActions = true;
+        }
+        if (!properties.getTransactionIndex().isEmpty()){
+            this.pubTransaction = true;
+        }
+        filteredActions= Arrays.asList(properties.getFilteredActions());
+    }
 
     @Autowired
     public void setElasticSearchPublisher(ElasticSearchPublisher elasticSearchPublisher) {
@@ -57,10 +86,12 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                 logger.info("Message type: " + messageType);
                 break;
             case "TX_TRACE":
+                try {
+
                 ChronicleMessage chronicleMessage = new Gson().fromJson(stringMessage, ChronicleMessage.class);
                 Transaction transaction = chronicleMessage.getTransaction();
 
-                try {
+
                 transaction.getTrace().getPartial().
                         setContext_free_data(
                                 jsonMessage.getJSONObject("data").
@@ -68,55 +99,46 @@ public class SocketHandler extends BinaryWebSocketHandler implements WebSocketHa
                                         getJSONObject("partial").
                                         get("context_free_data")
                                         .toString());
-                   }catch (JSONException jsonexception){
-                    logger.warn("jsonMessage is: "+jsonMessage.toString());
 
-                }
-                    elasticSearchPublisher.
-                            pubActions(transaction.getActions());
-
-                    elasticSearchPublisher.pubTransferActions(transaction.
-                            getActionsFiltered("transfer"));
-
+                if (pubActions){
+                    elasticSearchPublisher.pubActions(transaction.getActions());
+                    }
+                if (pubTransferActions){elasticSearchPublisher.
+                        pubTransferActions(transaction.getActionsFiltered(filteredActions));
+                    }
+                if (pubNewAccountActions){
                     elasticSearchPublisher.pubNewAccountActions(transaction.
-                            getActionsFiltered("newaccount"));
-
+                        getActionsFiltered("newaccount"));
+                    }
+                if (pubTransaction){
                     transaction.getTrace().setAction_traces(null);
-                    elasticSearchPublisher.
-                            pubTransaction(transaction);
-                try {
-                    String blockNumber = jsonMessage.
-                            getJSONObject("data").
-                            getString("block_num");;
-
-                    if (transaction.getBlock_num() % 100 == 0){
-                        if (session.isOpen()) {
-                            BigInteger bigInt = BigInteger.valueOf(transaction.getBlock_num());
-                            session.sendMessage(new BinaryMessage(bigInt.toByteArray()));
-                            logger.info("acknowleged block number: " + blockNumber);
-                        }
+                    elasticSearchPublisher.pubTransaction(transaction);
                     }
 
-                    if (elasticSearchPublisher.getFailureState()){
-                        logger.warn("Elasticsearch connection is broken");
-                        session.close();
-                    }
 
-                } catch (JSONException e) {
-                     e.printStackTrace();
-                } catch (IOException e){
-                    e.printStackTrace();
+                if (elasticSearchPublisher.getFailureState()){
+                    logger.error("Elasticsearch connection is broken");
+                    session.close();
                 }
-
+            }catch (IOException exception){
+                    logger.error(exception.getMessage());
+            }catch (JSONException jsonexception){
+            logger.warn("jsonMessage is: "+jsonMessage.toString());
+            }catch (JsonSyntaxException exception){
+                    logger.error(exception.getMessage());
+                logger.error(stringMessage);
+                }
                 break;
             case "BLOCK_COMPLETED":
                 logger.debug("Message type: "+ messageType);
-
                 try {
                     String blockNumber = jsonMessage.
                             getJSONObject("data").
                             getString("block_num");
-                    if (session.isOpen())session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
+                    if (session.isOpen()){
+                        logger.info("Acknowledged block number: "+blockNumber);
+                        session.sendMessage(new BinaryMessage(blockNumber.getBytes()));
+                    }
 
                 } catch (JSONException jex) {
                     logger.error("JSON Parse error", jex);
