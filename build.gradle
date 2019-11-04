@@ -1,9 +1,13 @@
 buildscript {
+
+    ext {
+        springBootVersion = '2.1.9.RELEASE'
+        }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.7.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE")
     }
 }
 
@@ -14,8 +18,8 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'elastic-publisher'
-    version = '0.1.1'
+    baseName = 'elasticsearch-publisher'
+    version = '0.1.2'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -28,21 +32,18 @@ repositories {
 
 dependencies {
     compile group: 'org.json', name: 'json', version: '20180813'
-    compile group: 'org.elasticsearch.gradle', name: 'build-tools', version: '7.2.1'
-    compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.2.1'
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.2.1'
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: '7.2.1'
-    compile group: 'org.elasticsearch.plugin', name: 'transport-netty4-client', version: '7.2.1'
+    compile group: 'org.elasticsearch.gradle', name: 'build-tools', version: '7.4.0'
+    compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.4.0'
+    compile group: 'org.elasticsearch.client', name: 'transport', version: '7.4.0'
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.4.0'
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: '7.4.0'
+    compile group: 'org.elasticsearch.plugin', name: 'transport-netty4-client', version: '7.4.0'
     compile 'ch.qos.logback:logback-classic:1.2.2'
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile "org.springframework.boot:spring-boot-configuration-processor"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-    compile("org.webjars:webjars-locator-core")
-    compile("org.webjars:sockjs-client:1.0.2")
-    compile("org.webjars:stomp-websocket:2.3.3")
-    compile("org.webjars:bootstrap:3.3.7")
-    compile("org.webjars:jquery:3.1.0")
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    testCompile 'junit:junit:4.12'
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 

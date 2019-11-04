@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "",
+      "type": "eosio.spectrum.websocket.api.configuration.Properties",
+      "sourceType": "eosio.spectrum.websocket.api.configuration.Properties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "filtered-actions",
+      "type": "java.lang.String[]",
+      "sourceType": "eosio.spectrum.websocket.api.configuration.Properties"
+    },
+    {
+      "name": "new-account-index",
+      "type": "java.lang.String",
+      "sourceType": "eosio.spectrum.websocket.api.configuration.Properties"
+    },
+    {
+      "name": "transfer-index",
+      "type": "java.lang.String",
+      "sourceType": "eosio.spectrum.websocket.api.configuration.Properties"
+    }
+  ],
+  "hints": []
+}
