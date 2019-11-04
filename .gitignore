@@ -32,7 +32,7 @@ hs_err_pid*
 .*.md.html
 .idea/*
 .gradle/*
-#out/*
-#build/*
+out/*
+build/*
 docker/consumer/build/*
 docker/chronicle/data/*
