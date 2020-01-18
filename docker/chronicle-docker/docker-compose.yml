@@ -1,0 +1,19 @@
+version: '3.0'
+services:
+  chronicle:
+    image: eostribe/chronicle
+    volumes:
+      - ./chronicle:/opt/data
+    environment:
+      - DATA_DIR=./data
+      - MODE=scan
+      - HOST=api.eostribe.io #ip address or hostname of nodeos with state-history plogin
+      - PORT=8299 #port number of state history plugin
+      - WS_HOST=172.16.10.124 # ip address or hostname json's consumer
+      - WS_PORT=8080 # port number of json's consumer
+      - SKIP_BLOCK_EVENTS=true
+      - SKIP_TABLE_DELTAS=true
+      - SKIP_TRACES=false
+      - BIN_HEADER=false
+      - EXP_WS_PATH=/
+      - REDIS_HOSTNAME=redis

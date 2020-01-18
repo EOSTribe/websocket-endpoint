@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Build folder:
+build/**
+
 # Log file
 *.log
 
@@ -23,3 +26,24 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+*#
+*.iml
+*.ipr
+*.iws
+*.jar
+*.sw?
+*~
+.#*
+.*.md.html
+.idea
+.gradle
+.idea/*
+.gradle/*
+out/*
+build/*
+gradle/*
+docker/consumer/build/*
+docker/chronicle/data/*
+docker/chronicle/data/receiver-state/shared_memory.bin
+py_pyscripts/.idea
+py_pyscripts/.idea/*
